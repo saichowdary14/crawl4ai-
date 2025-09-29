@@ -16,7 +16,7 @@ import pandas as pd
 # ✅ 3. Main Playwright automation flow
 async def main():
     
-    user_prompt = "I want the Ombudsperson Details for the year 2025-2026 of Andhra Pradesh"
+    user_prompt = "I want the Ombudsperson Details for the year 2025-2026 of Nagaland"
     base_url = "https://nreganarep.nic.in/netnrega/"
 
     async with async_playwright() as p:
@@ -50,14 +50,14 @@ async def main():
         with open(captcha_html_file_path, "w", encoding="utf-8") as f:
             f.write(f"<html><body><p>{captcha_text}</p></body></html>")
 
-        solution = await solve_captcha_text(captcha_text,captcha_html_file_path)
+        solution = await solve_captcha_text(captcha_html_file_path)
         print("✅ Captcha solution:", solution)
 
         captcha_input = new_page.locator("#ContentPlaceHolder1_txtCaptcha")
         button = new_page.locator("#ContentPlaceHolder1_btnLogin")
 
-        await captcha_input.wait_for(state="visible", timeout=10000)
-        await button.wait_for(state="visible", timeout=10000)
+        await captcha_input.wait_for(state="visible", timeout=20000)
+        await button.wait_for(state="visible", timeout=20000)
         await captcha_input.fill(solution)
         await button.click()
         await asyncio.sleep(3)

@@ -7,15 +7,16 @@ import json
 from pathlib import Path
 from typing import List
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-
-async def solve_captcha_text(captcha_text: str,captcha_html_file_path) -> str:
+async def solve_captcha_text(captcha_html_file_path):
 
     extraction_strategy = LLMExtractionStrategy(
         llm_config=LLMConfig(
             provider="openai/gpt-4o",
-            api_token=os.env('gpt')
+            api_token=os.getenv('OPENAI_API_KEY')
         ),
         instruction="This HTML contains a captcha challenge. Solve it and return ONLY the numeric answer."
     )
@@ -44,7 +45,7 @@ async def extract_subheadings_with_crawl4ai( user_prompt : str,full_html_file_pa
     extraction_strategy = LLMExtractionStrategy(
         llm_config=LLMConfig(
             provider="openai/gpt-4o",
-            api_token=os.env('gpt')
+            api_token=os.getenv('OPENAI_API_KEY')
         ),
         instruction = (
     f"You are given the full HTML of a page. On this page, there are multiple main headings. "
@@ -115,7 +116,7 @@ async def table_extraction(html_file_path):
     extraction_strategy = LLMExtractionStrategy(
         llm_config=LLMConfig(
             provider="openai/gpt-4o",
-            api_token=os.env('gpt')
+            api_token=os.getenv('OPENAI_API_KEY')
         ),
     extraction_type="block",  # Extract free-form content blocks
     instruction="""
